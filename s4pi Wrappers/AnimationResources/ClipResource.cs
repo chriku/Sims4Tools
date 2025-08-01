@@ -1,4 +1,4 @@
-﻿/***************************************************************************
+/***************************************************************************
  *  Copyright (C) 2016 by Peter Jones, s4pe Group                          *
  *                                                                         *
  *  This file is part of the Sims 4 Package Interface (s4pi)               *
@@ -40,7 +40,7 @@ namespace s4pi.Animation
         private ExplicitNameSpaceList explicitNamespaces;
         private IkConfiguration slot_assignments;
         private ClipEventList clip_events;
-        private S3CLIP codecData;
+        private S3CLIPResource codecData;
 
         public string Value
         {
@@ -149,7 +149,7 @@ namespace s4pi.Animation
             set { if (this.clip_events != value) { this.clip_events = value; OnResourceChanged(this, EventArgs.Empty); } }
         }
         [ElementPriority(14)]
-        public S3CLIP CodecData
+        public S3CLIPResource CodecData
         {
             get { return this.codecData; }
             set { if (this.codecData != value) { this.codecData = value; OnResourceChanged(this, EventArgs.Empty); } }
@@ -213,7 +213,7 @@ namespace s4pi.Animation
             uint codecDataLength = br.ReadUInt32();
             if (codecDataLength > 0)
             {
-                this.codecData = new S3CLIP(RecommendedApiVersion, OnResourceChanged, s);
+                this.codecData = new S3CLIPResource(RecommendedApiVersion, OnResourceChanged, s);
             }
         }
 
@@ -267,7 +267,7 @@ namespace s4pi.Animation
             }
             long codecStart = ms.Position;
             bw.Write(0);
-            if (this.codecData == null) this.codecData = new S3CLIP(RecommendedApiVersion, OnResourceChanged);
+            if (this.codecData == null) this.codecData = new S3CLIPResource(RecommendedApiVersion, OnResourceChanged);
             this.codecData.UnParse(ms);
             long codecEnd = ms.Position;
             ms.Position = codecStart;

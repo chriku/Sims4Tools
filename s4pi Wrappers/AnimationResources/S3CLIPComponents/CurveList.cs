@@ -17,12 +17,42 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with s3pi.  If not, see <http://www.gnu.org/licenses/>.          *
  ***************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.IO;
+using s4pi.Interfaces;
+
 namespace s4pi.Animation.S3CLIP
 {
-    public enum CurveDataType : byte
+    public class CurveList : DependentList<Curve>
     {
-        Float1 = 0x01,
-        Float3 = 0x02,
-        Float4 = 0x04
+        public CurveList(EventHandler handler, IEnumerable<Curve> ilt)
+            : base(handler, ilt)
+        {
+        }
+
+        public CurveList(EventHandler handler)
+            : base(handler)
+        {
+        }
+
+        #region Unused
+
+        public override void Add()
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override Curve CreateElement(Stream s)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void WriteElement(Stream s, Curve element)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
     }
 }

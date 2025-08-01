@@ -4,8 +4,15 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <AssemblyName>LRLEPNGHelper</AssemblyName>
     <RootNamespace>LRLEPNGHelper</RootNamespace>
-    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\s4pi Extras\Helpers\Helpers.csproj" />
+    <ProjectReference Include="..\..\s4pi Wrappers\ImageResource\ImageResource.csproj" />
+  </ItemGroup>
 
 </Project>

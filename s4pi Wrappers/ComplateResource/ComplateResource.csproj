@@ -5,6 +5,12 @@
     <AssemblyName>ComplateResource</AssemblyName>
     <RootNamespace>ComplateResource</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>
+

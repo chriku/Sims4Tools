@@ -1,10 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <AssemblyName>buildAll</AssemblyName>
     <RootNamespace>buildAll</RootNamespace>
     <OutputType>Exe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi Extras\CustomForms\CustomForms.csproj" />
+  </ItemGroup>
 
 </Project>

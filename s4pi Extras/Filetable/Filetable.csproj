@@ -5,6 +5,15 @@
     <AssemblyName>Filetable</AssemblyName>
     <RootNamespace>Filetable</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\s4pi\Package\Package.csproj" />
+    <ProjectReference Include="..\..\CS System Classes\CS System Classes.csproj" />
+    <ProjectReference Include="..\..\s4pi\WrapperDealer\WrapperDealer.csproj" />
+    <ProjectReference Include="..\Extensions\Extensions.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿/***************************************************************************
+/***************************************************************************
  *  Copyright (C) 2009, 2010 by Peter L Jones                              *
  *  pljones@users.sf.net                                                   *
  *                                                                         *
@@ -24,9 +24,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using s4pi.Interfaces;
-using s4pi.Animation.S3CLIP;
 
-namespace s4pi.Animation.S3CLIPModule
+namespace s4pi.Animation.S3CLIP
 {
     public class Clip : AHandlerElement
     {

@@ -4,9 +4,15 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <AssemblyName>RLESDDSHelper</AssemblyName>
     <RootNamespace>RLESDDSHelper</RootNamespace>
-    <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\s4pi Extras\Helpers\Helpers.csproj" />
+    <ProjectReference Include="..\..\s4pi Wrappers\ImageResource\ImageResource.csproj" />
+  </ItemGroup>
 
 </Project>

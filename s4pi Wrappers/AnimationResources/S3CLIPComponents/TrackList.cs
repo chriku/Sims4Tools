@@ -21,9 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using s4pi.Interfaces;
-using s4pi.Animation.S3CLIP;
 
-namespace s4pi.Animation.S3CLIPModule
+namespace s4pi.Animation.S3CLIP
 {
     public class TrackList : DependentList<Track>
     {

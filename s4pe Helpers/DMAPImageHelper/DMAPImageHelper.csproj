@@ -4,9 +4,15 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <AssemblyName>DMAPImageHelper</AssemblyName>
     <RootNamespace>DMAPImageHelper</RootNamespace>
-    <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\s4pi Wrappers\CASPartResource\CASPartResource.csproj" />
+    <ProjectReference Include="..\..\s4pi Extras\Helpers\Helpers.csproj" />
+  </ItemGroup>
 
 </Project>

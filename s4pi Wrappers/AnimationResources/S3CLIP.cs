@@ -22,10 +22,11 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using s4pi.Interfaces;
+using s4pi.Animation.S3CLIP;
 
 namespace s4pi.Animation
 {
-    public class S3CLIP : AHandlerElement, IEquatable<S3CLIP>
+    public class S3CLIPResource : AHandlerElement, IEquatable<S3CLIPResource>
     {
         char[] formatToken;
         uint version;
@@ -38,13 +39,13 @@ namespace s4pi.Animation
         F1PaletteList f1Palette;
         S3ChannelList channels;
 
-        public S3CLIP(int apiVersion, EventHandler handler) : base(apiVersion, handler) 
+        public S3CLIPResource(int apiVersion, EventHandler handler) : base(apiVersion, handler) 
         {
             this.formatToken = new char[8];
             this.f1Palette = new F1PaletteList(handler);
             this.channels = new S3ChannelList(handler);
         }
-        public S3CLIP(int apiVersion, EventHandler handler, Stream s)
+        public S3CLIPResource(int apiVersion, EventHandler handler, Stream s)
             : base(apiVersion, handler)
         {
             this.Parse(s);
@@ -141,7 +142,7 @@ namespace s4pi.Animation
             s.Position = currPos;
         }
 
-        public bool Equals(S3CLIP other)
+        public bool Equals(S3CLIPResource other)
         {
             return (Enumerable.SequenceEqual(this.formatToken, other.formatToken) &&
                     this.version == other.version &&

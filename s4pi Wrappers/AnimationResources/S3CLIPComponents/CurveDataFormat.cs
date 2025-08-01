@@ -17,18 +17,11 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with s3pi.  If not, see <http://www.gnu.org/licenses/>.          *
  ***************************************************************************/
-using System;
-
 namespace s4pi.Animation.S3CLIP
 {
-    public class CurveDataInfo
+    public enum CurveDataFormat : byte
     {
-        public CurveDataFlags Flags;
-        public Int32 FrameCount;
-        public UInt32 FrameDataOffset;
-        public Single Offset;
-        public Single Scale;
-        public UInt32 TrackKey;
-        public CurveType Type;
+        Indexed = 0x00,
+        Packed = 0x01
     }
 }

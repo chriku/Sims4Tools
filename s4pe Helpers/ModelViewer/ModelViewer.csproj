@@ -4,8 +4,28 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <AssemblyName>ModelViewer</AssemblyName>
     <RootNamespace>ModelViewer</RootNamespace>
-    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj" />
+    <ProjectReference Include="..\..\s4pi Wrappers\GenericRCOLResource\GenericRCOLResource.csproj" />
+    <ProjectReference Include="..\..\s4pi Wrappers\MeshChunks\MeshChunks.csproj" />
+    <ProjectReference Include="..\..\s4pi Wrappers\s4piRCOLChunks\s4piRCOLChunks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HelixToolkit.Wpf">
+      <HintPath>helix\HelixToolkit.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit.Wpf.Input">
+      <HintPath>helix\HelixToolkit.Wpf.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="TDx.TDxInput">
+      <HintPath>helix\TDx.TDxInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

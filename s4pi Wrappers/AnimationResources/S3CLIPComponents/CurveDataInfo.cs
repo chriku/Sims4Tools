@@ -18,38 +18,17 @@
  *  along with s3pi.  If not, see <http://www.gnu.org/licenses/>.          *
  ***************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.IO;
-using s4pi.Interfaces;
-using s4pi.Animation.S3CLIP;
 
-namespace s4pi.Animation.S3CLIPModule
+namespace s4pi.Animation.S3CLIP
 {
-    public class TrackList : DependentList<Track>
+    public class CurveDataInfo
     {
-        public TrackList(EventHandler handler)
-            : base(handler)
-        {
-        }
-
-        public TrackList(EventHandler handler, IEnumerable<Track> ilt)
-            : base(handler, ilt)
-        {
-        }
-
-        public TrackList(EventHandler handler, long size)
-            : base(handler, size)
-        {
-        }
-
-        protected override Track CreateElement(Stream s)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override void WriteElement(Stream s, Track element)
-        {
-            throw new NotSupportedException();
-        }
+        public CurveDataFlags Flags;
+        public Int32 FrameCount;
+        public UInt32 FrameDataOffset;
+        public Single Offset;
+        public Single Scale;
+        public UInt32 TrackKey;
+        public CurveType Type;
     }
 }
