@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <AssemblyName>Sims4Tools.Platform.Windows</AssemblyName>
+    <RootNamespace>Sims4Tools.Platform.Windows</RootNamespace>
+    <Description>Windows-specific platform services for Sims4Tools</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sims4Tools.Platform.Abstractions\Sims4Tools.Platform.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

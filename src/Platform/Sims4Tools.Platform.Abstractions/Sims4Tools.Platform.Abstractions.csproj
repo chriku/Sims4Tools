@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>Sims4Tools.Platform.Abstractions</AssemblyName>
+    <RootNamespace>Sims4Tools.Platform.Abstractions</RootNamespace>
+    <Description>Platform abstraction interfaces for Sims4Tools</Description>
+  </PropertyGroup>
+
+</Project>
