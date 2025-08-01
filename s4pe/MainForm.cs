@@ -35,6 +35,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
+using System.Text.Json;
 using System.Text;
 using System.Windows.Forms;
 using s4pi.Extensions;
@@ -1505,10 +1506,7 @@ namespace S4PIDemoFE
                         WrapperDealer.GetResource(0, this.CurrentPackage, this.browserWidget1.SelectedResource, true)
                                      .AsBytes; //Don't need wrapper
 
-                    IFormatter formatter = new BinaryFormatter();
-                    MemoryStream ms = new MemoryStream();
-                    formatter.Serialize(ms, d);
-                    Clipboard.SetData(DataFormatSingleFile, ms);
+                    ResourceClipboard.SetResource(d, DataFormatSingleFile);
                 }
                 else
                 {
@@ -1522,10 +1520,7 @@ namespace S4PIDemoFE
                         l.Add(d);
                     }
 
-                    IFormatter formatter = new BinaryFormatter();
-                    MemoryStream ms = new MemoryStream();
-                    formatter.Serialize(ms, l);
-                    Clipboard.SetData(DataFormatBatch, ms);
+                    ResourceClipboard.SetResourceList(l, DataFormatBatch);
                 }
             }
             finally

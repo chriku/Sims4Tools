@@ -39,8 +39,8 @@ namespace S4PIDemoFE
 
     partial class MainForm
     {
-        private const string DataFormatSingleFile = "x-application/s3pe.singleFile";
-        private const string DataFormatBatch = "x-application/s3pe.batch";
+        public const string DataFormatSingleFile = "x-application/s3pe.singleFile";
+        public const string DataFormatBatch = "x-application/s3pe.batch";
 
         private static readonly string[] packageExtensions =
         {
@@ -506,23 +506,21 @@ namespace S4PIDemoFE
             try
             {
                 this.Enabled = false;
-                if (Clipboard.ContainsData(MainForm.DataFormatSingleFile))
+                if (Clipboard.ContainsData(DataFormatSingleFile))
                 {
-                    IFormatter formatter = new BinaryFormatter();
-                    Stream stream = Clipboard.GetData(MainForm.DataFormatSingleFile) as MemoryStream;
-                    MyDataFormat d = (MyDataFormat)formatter.Deserialize(stream);
-                    stream.Close();
-
-                    this.ImportSingle(d);
+                    MyDataFormat? d = ResourceClipboard.GetResource(DataFormatSingleFile);
+                    if (d.HasValue)
+                    {
+                        this.ImportSingle(d.Value);
+                    }
                 }
-                else if (Clipboard.ContainsData(MainForm.DataFormatBatch))
+                else if (Clipboard.ContainsData(DataFormatBatch))
                 {
-                    IFormatter formatter = new BinaryFormatter();
-                    Stream stream = Clipboard.GetData(MainForm.DataFormatBatch) as MemoryStream;
-                    List<MyDataFormat> l = (List<MyDataFormat>)formatter.Deserialize(stream);
-                    stream.Close();
-
-                    this.ImportBatch(l);
+                    List<MyDataFormat> l = ResourceClipboard.GetResourceList(DataFormatBatch);
+                    if (l != null)
+                    {
+                        this.ImportBatch(l);
+                    }
                 }
                 else if (Clipboard.ContainsFileDropList())
                 {

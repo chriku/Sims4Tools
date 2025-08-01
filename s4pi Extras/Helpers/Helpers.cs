@@ -182,7 +182,7 @@ namespace s4pi.Helpers
                 if (helper.export)
                     lastWriteTime = pasteTo(helper.res, helper.filename);
                 else
-                    Clipboard.SetData(DataFormats.Serializable, helper.res.Stream);
+                    SetStreamToClipboard(helper.res.Stream);
 
                 bool result = Execute(helper.res, helper, helper.command, helper.arguments);
                 if (!helper.isReadOnly && result)
@@ -193,7 +193,7 @@ namespace s4pi.Helpers
                     }
                     else if (Clipboard.ContainsData(DataFormats.Serializable))
                     {
-                        return Clipboard.GetData(DataFormats.Serializable) as MemoryStream;
+                        return GetStreamFromClipboard();
                     }
                 }
                 return null;
@@ -276,6 +276,68 @@ namespace s4pi.Helpers
                 Application.DoEvents();
 
             return p.ExitCode == 0;
+        }
+
+        /// <summary>
+        /// Modern JSON-based stream clipboard operations to replace obsolete DataFormats.Serializable
+        /// </summary>
+        private static void SetStreamToClipboard(Stream stream)
+        {
+            try
+            {
+                // Convert stream to base64 and store as text - more compatible than DataFormats.Serializable
+                var bytes = new byte[stream.Length];
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.Read(bytes, 0, bytes.Length);
+                var base64 = Convert.ToBase64String(bytes);
+                var data = new { Type = "s4pe.stream", Data = base64, Size = bytes.Length };
+                var json = System.Text.Json.JsonSerializer.Serialize(data);
+                Clipboard.SetText(json);
+            }
+            catch
+            {
+                // Fallback to original method if JSON fails
+                Clipboard.SetData(DataFormats.Serializable, stream);
+            }
+        }
+
+        /// <summary>
+        /// Get stream from clipboard, supporting both new JSON format and legacy Serializable format
+        /// </summary>
+        private static MemoryStream GetStreamFromClipboard()
+        {
+            try
+            {
+                if (Clipboard.ContainsText())
+                {
+                    var text = Clipboard.GetText();
+                    // Try to parse as JSON first
+                    var data = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(text);
+                    if (data.TryGetProperty("Type", out var typeElement) && 
+                        typeElement.GetString() == "s4pe.stream" &&
+                        data.TryGetProperty("Data", out var dataElement))
+                    {
+                        var base64 = dataElement.GetString();
+                        var bytes = Convert.FromBase64String(base64);
+                        return new MemoryStream(bytes);
+                    }
+                }
+                
+                // Fallback to legacy format
+                if (Clipboard.ContainsData(DataFormats.Serializable))
+                {
+                    return Clipboard.GetData(DataFormats.Serializable) as MemoryStream;
+                }
+            }
+            catch
+            {
+                // If JSON parsing fails, try legacy format
+                if (Clipboard.ContainsData(DataFormats.Serializable))
+                {
+                    return Clipboard.GetData(DataFormats.Serializable) as MemoryStream;
+                }
+            }
+            return null;
         }
     }
 }

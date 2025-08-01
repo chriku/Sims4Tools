@@ -65,7 +65,7 @@ namespace s4pi.Helpers
 
             if (useClipboard)
             {
-                ms = Clipboard.GetData(DataFormats.Serializable) as MemoryStream;
+                ms = GetStreamFromClipboard();
                 if (ms == null)
                 {
                     CopyableMessageBox.Show("Invalid clipboard content",
@@ -112,7 +112,7 @@ namespace s4pi.Helpers
 
             if (useClipboard)
             {
-                Clipboard.SetData(DataFormats.Serializable, new MemoryStream(result));
+                SetStreamToClipboard(new MemoryStream(result));
             }
             else
             {
@@ -122,6 +122,71 @@ namespace s4pi.Helpers
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// Modern JSON-based stream clipboard operations to replace obsolete DataFormats.Serializable
+        /// </summary>
+        private static void SetStreamToClipboard(Stream stream)
+        {
+            try
+            {
+                // Convert stream to base64 and store as text - more compatible than DataFormats.Serializable
+                var bytes = new byte[stream.Length];
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.Read(bytes, 0, bytes.Length);
+                var base64 = Convert.ToBase64String(bytes);
+                var data = new { Type = "s4pe.stream", Data = base64, Size = bytes.Length };
+                var json = System.Text.Json.JsonSerializer.Serialize(data);
+                Clipboard.SetText(json);
+            }
+            catch
+            {
+                // Fallback to original method if JSON fails
+                Clipboard.SetData(DataFormats.Serializable, stream);
+            }
+        }
+
+        /// <summary>
+        /// Get stream from clipboard, supporting both new JSON format and legacy Serializable format
+        /// </summary>
+        private static MemoryStream GetStreamFromClipboard()
+        {
+            try
+            {
+                if (Clipboard.ContainsText())
+                {
+                    var text = Clipboard.GetText();
+                    // Try to parse as JSON first
+                    var data = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(text);
+                    if (data.TryGetProperty("Type", out var typeElement) && 
+                        typeElement.GetString() == "s4pe.stream" &&
+                        data.TryGetProperty("Data", out var dataElement))
+                    {
+                        var base64 = dataElement.GetString();
+                        if (base64 != null)
+                        {
+                            var bytes = Convert.FromBase64String(base64);
+                            return new MemoryStream(bytes);
+                        }
+                    }
+                }
+                
+                // Fallback to legacy format
+                if (Clipboard.ContainsData(DataFormats.Serializable))
+                {
+                    return Clipboard.GetData(DataFormats.Serializable) as MemoryStream;
+                }
+            }
+            catch
+            {
+                // If JSON parsing fails, try legacy format
+                if (Clipboard.ContainsData(DataFormats.Serializable))
+                {
+                    return Clipboard.GetData(DataFormats.Serializable) as MemoryStream;
+                }
+            }
+            return null;
         }
     }
 }
