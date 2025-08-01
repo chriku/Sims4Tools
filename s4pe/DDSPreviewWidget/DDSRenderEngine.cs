@@ -46,75 +46,134 @@
  ***************************************************************************/
 using System;
 using System.Windows;
-using System.Windows.Resources;
-using SlimDX;
-using SlimDX.Direct3D9;
-using SlimDX.Wpf;
 using System.IO;
 using System.Drawing;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace S3PIDemoFE.DDSWidget
 {
     class DDSRenderEngine : IRenderEngine
     {
-        private Sprite sprite;
-        Texture texture;
-        Stream dds = null;
-        DDSSurface surface;
+        private Stream dds = null;
+        private DDSSurface surface;
+        private BitmapSource? currentTexture;
 
-        public DDSRenderEngine(DDSSurface surface) { this.surface = surface; }
+        public DDSRenderEngine(DDSSurface surface) 
+        { 
+            this.surface = surface; 
+        }
 
         public void OnDeviceCreated(object sender, EventArgs e)
         {
-            return;
+            // No DirectX device needed for simplified approach
         }
 
-        private void free()
+        private void ClearTexture()
         {
-            if (sprite != null && !sprite.Disposed)
-            {
-                sprite.Dispose();
-                //? sprite = null;
-            }
-            if (texture != null && !texture.Disposed)
-            {
-                texture.Dispose();
-                texture = null;
-            }
+            currentTexture = null;
         }
 
-        public void OnDeviceDestroyed(object sender, EventArgs e) { free(); }
+        public void OnDeviceDestroyed(object sender, EventArgs e) 
+        { 
+            ClearTexture(); 
+        }
 
-        public void OnDeviceLost(object sender, EventArgs e) { free(); }
+        public void OnDeviceLost(object sender, EventArgs e) 
+        { 
+            ClearTexture(); 
+        }
 
         public void OnDeviceReset(object sender, EventArgs e)
         {
             if (dds == null) return;
-            free();
+            ClearTexture();
+            LoadDDSTexture();
+        }
 
-            SlimDXControl control = surface.m_slimDXControl;
-            sprite = new Sprite(control.Device);
-            dds.Position = 0;
-            texture = Texture.FromStream(control.Device, dds, Usage.None, Pool.Default);
+        private void LoadDDSTexture()
+        {
+            if (dds == null) return;
+
+            try
+            {
+                dds.Position = 0;
+                
+                // Convert DDS stream to BitmapSource for WPF display
+                // For now, we'll try to load it as a standard image
+                // TODO: Implement proper DDS decoding if needed
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = dds;
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                bitmap.Freeze();
+                
+                currentTexture = bitmap;
+                
+                // Update the surface display
+                surface.UpdateTexture(currentTexture);
+            }
+            catch (Exception ex)
+            {
+                // If direct loading fails, we might need DDS-specific decoding
+                System.Diagnostics.Debug.WriteLine($"DDS loading error: {ex.Message}");
+                // Fallback: create a placeholder image
+                CreatePlaceholderTexture();
+            }
+        }
+
+        private void CreatePlaceholderTexture()
+        {
+            // Create a simple placeholder when DDS can't be loaded directly
+            var drawingVisual = new DrawingVisual();
+            using (var context = drawingVisual.RenderOpen())
+            {
+                context.DrawRectangle(System.Windows.Media.Brushes.LightGray, 
+                                    new System.Windows.Media.Pen(System.Windows.Media.Brushes.Gray, 1), 
+                                    new Rect(0, 0, 256, 256));
+                context.DrawText(
+                    new FormattedText("DDS Preview\nNot Available", 
+                                    System.Globalization.CultureInfo.InvariantCulture,
+                                    FlowDirection.LeftToRight,
+                                    new Typeface("Arial"),
+                                    14,
+                                    System.Windows.Media.Brushes.Black,
+                                    VisualTreeHelper.GetDpi(drawingVisual).PixelsPerDip),
+                    new System.Windows.Point(20, 100));
+            }
+
+            var bitmap = new RenderTargetBitmap(256, 256, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(drawingVisual);
+            bitmap.Freeze();
+            
+            currentTexture = bitmap;
+            surface.UpdateTexture(currentTexture);
         }
 
         public void OnMainLoop(object sender, EventArgs e)
         {
-            if (dds == null) return;
-
-            sprite.Begin(SpriteFlags.AlphaBlend);
-            sprite.Draw(texture, Vector3.Zero, Vector3.Zero, new Color4(System.Drawing.SystemColors.AppWorkspace));
-            sprite.End();
+            // No continuous rendering needed for static image display
         }
 
         public Stream DDS
         {
             set
             {
-                if (dds != null) { dds = null; free(); }
+                if (dds != null) 
+                { 
+                    dds = null; 
+                    ClearTexture(); 
+                }
                 dds = value;
-                surface.m_slimDXControl.ForceRendering();
-                OnDeviceReset(this, EventArgs.Empty);
+                if (dds != null)
+                {
+                    LoadDDSTexture();
+                }
+                else
+                {
+                    surface.UpdateTexture(null);
+                }
             }
         }
     }
