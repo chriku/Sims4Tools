@@ -315,9 +315,9 @@ namespace S4PIDemoFE
                                           bool compress,
                                           bool useNames = false,
                                           bool rename = false,
-                                          List<uint> dupsList = null,
+                                          List<uint>? dupsList = null,
                                           AutoSaveState autoSaveState = AutoSaveState.Ask,
-                                          IList<IResourceIndexEntry> selection = null
+                                          IList<IResourceIndexEntry>? selection = null
             )
         {
             bool cpUseNames = this.controlPanel1.UseNames;

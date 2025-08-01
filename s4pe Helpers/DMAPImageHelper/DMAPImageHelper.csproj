@@ -6,6 +6,7 @@
     <RootNamespace>DMAPImageHelper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
 </Project>
