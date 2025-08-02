@@ -41,9 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="s4pi.CASPartResource">
-      <HintPath>..\..\bin\Debug\s4pi.CASPartResource.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\s4pi Wrappers\CASPartResource\CASPartResource.csproj">
+      <Project>{38D21F02-C139-43C8-8B74-D84E22B89F50}</Project>
+      <Name>CASPartResource</Name>
+    </ProjectReference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />

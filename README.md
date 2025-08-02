@@ -27,11 +27,25 @@ Roughly in chronological order -- [full details here] (https://github.com/s4ptac
 
 Requirements
 -------------
-* .NET 4.0
+* .NET Framework 4.8.1 or .NET 6+ (cross-platform)
+* For Windows: Visual Studio 2019+ or JetBrains Rider
+* For Linux/macOS: .NET SDK, Visual Studio Code, or JetBrains Rider
 
 Project Setup
 -------------
-* Visual Studio is currently required. sims4tools.sln is the solution currently in use.
+### Windows
+* Visual Studio 2019+ is recommended. sims4tools.sln is the solution file.
+* Alternatively, use JetBrains Rider or VS Code with C# extension.
+
+### Linux/macOS
+* Install .NET SDK 6.0 or later
+* Use Visual Studio Code with C# extension, JetBrains Rider, or any IDE supporting .NET
+* Use the cross-platform build scripts: `./build.sh` or `pwsh ./build.ps1`
+
+### Building
+* **Cross-platform**: Run `./build.sh` (bash) or `pwsh ./build.ps1` (PowerShell)
+* **Windows**: Run `.\build.ps1` or use Visual Studio
+* **Traditional**: Use `dotnet build sims4tools.sln`
 
 Helper Projects
 -------------

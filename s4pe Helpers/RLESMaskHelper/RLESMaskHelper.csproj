@@ -56,17 +56,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="s4pi.Helpers, Version=1601.16.1500.18010, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Debug\s4pi.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="s4pi.ImageResource">
-      <HintPath>..\..\bin\Debug\s4pi.ImageResource.dll</HintPath>
-    </Reference>
-    <Reference Include="s4pi.Interfaces, Version=1601.16.1500.18006, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Debug\s4pi.Interfaces.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\s4pi Extras\Helpers\Helpers.csproj">
+      <Project>{D9B63641-D3BE-4120-9115-7D67B1238FBF}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\s4pi Wrappers\ImageResource\ImageResource.csproj">
+      <Project>{AD53972B-D73E-4935-A4AD-3EBE0E3516F2}</Project>
+      <Name>ImageResource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\s4pi\Interfaces\Interfaces.csproj">
+      <Project>{51023BD2-9139-438D-B794-95E5EC023537}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
