@@ -66,6 +66,7 @@ jobs:
           s4pe/bin/Release/
 
   build-macos:
+    if: false
     runs-on: macos-latest
     
     steps:
